@@ -14,7 +14,7 @@ body {
     border-radius: 1rem;
 }
 
-.screen {
+#display {
     text-align: end;
     font-size: 3em;
     font-weight: 600;
@@ -23,7 +23,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.buttons {
+#buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;

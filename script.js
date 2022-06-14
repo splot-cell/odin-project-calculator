@@ -14,15 +14,31 @@ function divide(a, b) {
     return a / b;
 }
 
-function operate(operator, a, b) {
-    switch (operator) {
-        case "+":
-            return add(a, b);
-        case "-":
-            return subtract(a, b);
-        case "*":
-            return multiply(a, b);
-        case "/":
-            return divide(a, b);
+const Calculator = {
+    display: document.getElementById("display"),
+    displayValue: display.textContent,
+    firstOperand: null,
+    secondOperand: null,
+    operator: null,
+    updateDisplay(result) {
+        this.display.textContent = result;
+        this.displayValue = result;
+    },
+    operate() {
+        let result;
+        switch (this.operator) {
+            case "add":
+                result = add(this.firstOperand, this.secondOperand);
+                break;
+            case "subtract":
+                result = subtract(this.firstOperand, this.secondOperand);
+                break;
+            case "multiply":
+                result = multiply(this.firstOperand, this.secondOperand);
+                break;
+            case "divide":
+                result = divide(this.firstOperand, this.secondOperand);
+                break;
+        }
     }
-}
+};
