@@ -19,16 +19,29 @@ const Calculator = {
     firstOperand: null,
     secondOperand: null,
     operator: null,
+    allowNumericalInput: true,
+    allowOperatorInput: true,
+    allowDecimalInput: true,
 
     reset() {
         this.firstOperand = null;
         this.operator = null;
         this.secondOperand = null;
         this.updateDisplay(0);
+        this.allowNumericalInput = true;
+        this.allowDecimalInput = true;
+        this.allowOperatorInput = true;
     },
    
     updateDisplay(result) {
         this.display.textContent = result.toString().slice(0, 12);
+        // Rounding in js can easily lead to errors. Simple truncation of the display seems like a better solution given the context of this app.
+    },
+
+    haltAllInput() {
+        this.allowNumericalInput = false;
+        this.allowDecimalInput = false;
+        this.allowOperatorInput = false;
     },
    
     operate() {
@@ -44,6 +57,11 @@ const Calculator = {
                 result = multiply(Number(this.firstOperand), Number(this.secondOperand));
                 break;
             case "divide":
+                if (+this.secondOperand === 0) {
+                    result = "NOPE!";
+                    this.haltAllInput();
+                    break;
+                }
                 result = divide(Number(this.firstOperand), Number(this.secondOperand));
                 break;
         }
@@ -51,10 +69,18 @@ const Calculator = {
         this.firstOperand = result;
         this.operator = null;
         this.secondOperand = null;
+        // Pause DIGIT input until calc is reset OR operand is set
+        this.allowNumericalInput = false;
     },
 
     operatorPressed(operator) {
-        if (this.secondOperand) { // only need to check secondOperand?
+        if (!this.allowOperatorInput) {
+            return;
+        }
+
+        this.allowNumericalInput = true;
+
+        if (this.secondOperand) {
             this.operate();
         }
         if (this.firstOperand) {
@@ -63,7 +89,7 @@ const Calculator = {
     },
 
     equalsPressed() {
-        if (this.secondOperand) { // only need to check secondOperand?
+        if (this.secondOperand) {
             this.operate();
         }
     },
@@ -77,6 +103,16 @@ const Calculator = {
     },
 
     digitPressed(digit) {
+        if (!this.allowNumericalInput) {
+            return;
+        }
+
+        if (digit === "." && !this.allowDecimalInput) {
+            return;
+        } else if (digit === ".") {
+            this.allowDecimalInput = false;
+        }
+
         if (!this.operator) {
            this.firstOperand = this.appendDigit(this.firstOperand, digit);
            this.updateDisplay(this.firstOperand);
