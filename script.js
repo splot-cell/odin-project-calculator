@@ -16,14 +16,12 @@ function divide(a, b) {
 
 const Calculator = {
     display: document.getElementById("display"),
-    displayValue: display.textContent,
     firstOperand: null,
     secondOperand: null,
     operator: null,
    
     updateDisplay(result) {
-        this.display.textContent = result;
-        this.displayValue = result;
+        this.display.textContent = result.toString().slice(0, 12);
     },
    
     operate() {
