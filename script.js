@@ -19,6 +19,13 @@ const Calculator = {
     firstOperand: null,
     secondOperand: null,
     operator: null,
+
+    reset() {
+        this.firstOperand = null;
+        this.operator = null;
+        this.secondOperand = null;
+        this.updateDisplay(0);
+    },
    
     updateDisplay(result) {
         this.display.textContent = result.toString().slice(0, 12);
@@ -88,6 +95,8 @@ function setup() {
     document.getElementById("equals").addEventListener("click", () => Calculator.equalsPressed());
 
     document.querySelectorAll(".digit").forEach( digit => digit.addEventListener("click", (e) => Calculator.digitPressed(e.target.textContent)));
+
+    document.getElementById("clear").addEventListener("click", () => Calculator.reset());
 };
 
 setup();
