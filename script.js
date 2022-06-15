@@ -49,11 +49,17 @@ const Calculator = {
     },
 
     operatorPressed(operator) {
-        if (this.operator && this.secondOperand) {
+        if (this.secondOperand) { // only need to check secondOperand?
             this.operate();
         }
         if (this.firstOperand) {
             this.operator = operator;
+        }
+    },
+
+    equalsPressed() {
+        if (this.secondOperand) { // only need to check secondOperand?
+            this.operate();
         }
     },
 
@@ -68,8 +74,10 @@ const Calculator = {
     digitPressed(digit) {
         if (!this.operator) {
            this.firstOperand = this.appendDigit(this.firstOperand, digit);
+           this.updateDisplay(this.firstOperand);
         } else {
             this.secondOperand = this.appendDigit(this.secondOperand, digit);
+            this.updateDisplay(this.secondOperand);
         }
     },
 };
@@ -79,7 +87,7 @@ function setup() {
         button.addEventListener("click", (e) => Calculator.operatorPressed(e.target.id));
     });
 
-    document.getElementById("equals").addEventListener("click", () => Calculator.operate());
+    document.getElementById("equals").addEventListener("click", () => Calculator.equalsPressed());
 
     document.querySelectorAll(".digit").forEach( digit => digit.addEventListener("click", (e) => Calculator.digitPressed(e.target.textContent)));
 };
