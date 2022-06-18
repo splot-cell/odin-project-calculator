@@ -80,18 +80,13 @@ const Calculator = {
         if (!this.allowOperatorInput) {
             return;
         }
-
-<<<<<<< HEAD
-=======
-        this.allowNumericalInput = true;
-        this.allowDecimalInput = true;
-
->>>>>>> squarebrackets
+        
         if (this.secondOperand) {
             this.operate();
         }
         
         this.allowNumericalInput = true;
+        this.allowDecimalInput = true;
         
         if (this.firstOperand) {
             this.operator = operator;
