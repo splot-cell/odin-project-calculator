@@ -136,6 +136,16 @@ const Calculator = {
             this.allowDecimalInput = true;
         }
         this.updateDisplay(this[this.currentInputOperand]);
+    },
+
+    plusMinusPressed() {
+        let number = Number(this[this.currentInputOperand]);
+        if (isNaN(number)) { // In case user has deleted input back to just "-" or "."
+            return;
+        }
+        number *= -1;
+        this[this.currentInputOperand] = number.toString();
+        this.updateDisplay(this[this.currentInputOperand]);
     }
 };
 
@@ -151,6 +161,8 @@ function setup() {
     document.getElementById("clear").addEventListener("click", () => Calculator.reset());
 
     document.getElementById("delete").addEventListener("click", () => Calculator.deletePressed());
+
+    document.getElementById("plus-minus").addEventListener("click", () => Calculator.plusMinusPressed());
 };
 
 setup();
