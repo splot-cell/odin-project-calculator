@@ -18,6 +18,7 @@ const Calculator = {
     display: document.getElementById("display"),
     firstOperand: null,
     secondOperand: null,
+    currentInputOperand: "firstOperand",
     operator: null,
     allowNumericalInput: true,
     allowOperatorInput: true,
@@ -25,6 +26,7 @@ const Calculator = {
 
     reset() {
         this.firstOperand = null;
+        this.currentInputOperand = "firstOperand";
         this.operator = null;
         this.secondOperand = null;
         this.updateDisplay(0);
@@ -66,10 +68,11 @@ const Calculator = {
                 break;
         }
         this.updateDisplay(result);
+
         this.firstOperand = result;
         this.operator = null;
         this.secondOperand = null;
-        // Pause DIGIT input until calc is reset OR operand is set
+
         this.allowNumericalInput = false;
     },
 
@@ -79,6 +82,7 @@ const Calculator = {
         }
 
         this.allowNumericalInput = true;
+        this.allowDecimalInput = true;
 
         if (this.secondOperand) {
             this.operate();
@@ -86,6 +90,8 @@ const Calculator = {
         if (this.firstOperand) {
             this.operator = operator;
         }
+
+        this.currentInputOperand = "secondOperand";
     },
 
     equalsPressed() {
@@ -113,14 +119,15 @@ const Calculator = {
             this.allowDecimalInput = false;
         }
 
-        if (!this.operator) {
-           this.firstOperand = this.appendDigit(this.firstOperand, digit);
-           this.updateDisplay(this.firstOperand);
-        } else {
-            this.secondOperand = this.appendDigit(this.secondOperand, digit);
-            this.updateDisplay(this.secondOperand);
-        }
+        this[this.currentInputOperand] = this.appendDigit(this[this.currentInputOperand], digit);
+        this.updateDisplay(this[this.currentInputOperand]);
     },
+
+    deletePressed() {
+        if (this.secondOperand) {
+
+        } 
+    }
 };
 
 function setup() {
