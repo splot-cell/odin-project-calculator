@@ -125,9 +125,17 @@ const Calculator = {
     },
 
     deletePressed() {
-        if (this.secondOperand) {
+        if (!this[this.currentInputOperand]) {
+            return;
+        }
+        let arr = this[this.currentInputOperand].split("");
+        let lastChar = arr.pop();
+        this[this.currentInputOperand] = arr.join("");
 
-        } 
+        if (lastChar === ".") {
+            this.allowDecimalInput = true;
+        }
+        this.updateDisplay(this[this.currentInputOperand]);
     }
 };
 
@@ -141,6 +149,8 @@ function setup() {
     document.querySelectorAll(".digit").forEach( digit => digit.addEventListener("click", (e) => Calculator.digitPressed(e.target.textContent)));
 
     document.getElementById("clear").addEventListener("click", () => Calculator.reset());
+
+    document.getElementById("delete").addEventListener("click", () => Calculator.deletePressed());
 };
 
 setup();
