@@ -78,11 +78,12 @@ const Calculator = {
             return;
         }
 
-        this.allowNumericalInput = true;
-
         if (this.secondOperand) {
             this.operate();
         }
+        
+        this.allowNumericalInput = true;
+        
         if (this.firstOperand) {
             this.operator = operator;
         }
