@@ -58,3 +58,9 @@ button {
     background-color: rgb(252, 137, 95);
     border-color: rgb(164, 88, 61);
 }
+
+#operator {
+    font-size: 1.5em;
+    text-align: right;
+    margin: -4em 0.3em 3em;
+}
