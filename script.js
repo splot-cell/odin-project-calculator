@@ -98,6 +98,7 @@ const Calculator = {
     equalsPressed() {
         if (this.secondOperand) {
             this.operate();
+            this.currentInputOperand = "firstOperand";
         }
     },
 
@@ -125,9 +126,14 @@ const Calculator = {
     },
 
     deletePressed() {
+        if (!this.allowNumericalInput) {
+            return;
+        }
+
         if (!this[this.currentInputOperand]) {
             return;
         }
+
         let arr = this[this.currentInputOperand].split("");
         let lastChar = arr.pop();
         this[this.currentInputOperand] = arr.join("");
@@ -139,6 +145,9 @@ const Calculator = {
     },
 
     plusMinusPressed() {
+        if (!this[this.currentInputOperand]) {
+            return;
+        }
         let number = Number(this[this.currentInputOperand]);
         if (isNaN(number)) { // In case user has deleted input back to just "-" or "."
             return;
@@ -147,6 +156,19 @@ const Calculator = {
         this[this.currentInputOperand] = number.toString();
         this.updateDisplay(this[this.currentInputOperand]);
     }
+};
+
+function keyboardEventHandler(e) {
+    if (e.key >= 0 && e.key <= 9) { Calculator.digitPressed(e.key) };
+    if (e.key === ".") { Calculator.digitPressed(e.key) };
+    if (e.key === "+") { Calculator.operatorPressed("add") };
+    if (e.key === "-") { Calculator.operatorPressed("subtract") };
+    if (e.key === "*") { Calculator.operatorPressed("multiply") };
+    if (e.key === "/") { Calculator.operatorPressed("divide") };
+    if (e.key === "=" || e.key === "Enter") { Calculator.equalsPressed() };
+    if (e.key === "Backspace") { Calculator.deletePressed() };
+    if (e.key === "Clear") { Calculator.reset() };
+    if (e.key === "±") { Calculator.plusMinusPressed() };
 };
 
 function setup() {
@@ -163,6 +185,8 @@ function setup() {
     document.getElementById("delete").addEventListener("click", () => Calculator.deletePressed());
 
     document.getElementById("plus-minus").addEventListener("click", () => Calculator.plusMinusPressed());
+
+    document.addEventListener("keydown", keyboardEventHandler);
 };
 
 setup();
