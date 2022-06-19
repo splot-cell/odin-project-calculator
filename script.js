@@ -16,6 +16,7 @@ function divide(a, b) {
 
 const Calculator = {
     display: document.getElementById("display"),
+    operatorDisplay: document.getElementById("operator-display"),
     firstOperand: null,
     secondOperand: null,
     currentInputOperand: "firstOperand",
@@ -38,6 +39,7 @@ const Calculator = {
     updateDisplay(result) {
         this.display.textContent = result.toString().slice(0, 12);
         // Rounding in js can easily lead to errors. Simple truncation of the display seems like a better solution given the context of this app.
+        this.updateOperatorDisplay();
     },
 
     haltAllInput() {
@@ -67,13 +69,32 @@ const Calculator = {
                 result = divide(Number(this.firstOperand), Number(this.secondOperand));
                 break;
         }
-        this.updateDisplay(result);
-
         this.firstOperand = result;
         this.operator = null;
         this.secondOperand = null;
+        
+        this.updateDisplay(result);
 
         this.allowNumericalInput = false;
+    },
+
+    updateOperatorDisplay() {
+        switch (this.operator) {
+            case "add":
+                this.operatorDisplay.innerHTML = "+";
+                break;
+            case "subtract":
+                this.operatorDisplay.innerHTML = "-";
+                break;
+            case "multiply":
+                this.operatorDisplay.innerHTML = "&times;";
+                break;
+            case "divide":
+                this.operatorDisplay.innerHTML = "&divide;";
+                break;
+            default:
+                this.operatorDisplay.innerHTML = "&nbsp;";
+        }
     },
 
     operatorPressed(operator) {
@@ -90,6 +111,7 @@ const Calculator = {
         
         if (this.firstOperand) {
             this.operator = operator;
+            this.updateOperatorDisplay();
         }
 
         this.currentInputOperand = "secondOperand";
