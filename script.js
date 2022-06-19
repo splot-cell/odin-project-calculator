@@ -137,6 +137,10 @@ const Calculator = {
             return;
         }
 
+        if (this[this.currentInputOperand] && this[this.currentInputOperand].length >= 12) {
+            return;
+        }
+
         if (digit === "." && !this.allowDecimalInput) {
             return;
         } else if (digit === ".") {
