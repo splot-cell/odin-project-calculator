@@ -78,8 +78,8 @@ const Calculator = {
         this.allowNumericalInput = false;
     },
 
-    updateOperatorDisplay() {
-        switch (this.operator) {
+    updateOperatorDisplay(operator) {
+        switch (operator) {
             case "add":
                 this.operatorDisplay.innerHTML = "+";
                 break;
@@ -111,7 +111,7 @@ const Calculator = {
         
         if (this.firstOperand) {
             this.operator = operator;
-            this.updateOperatorDisplay();
+            this.updateOperatorDisplay(operator);
         }
 
         this.currentInputOperand = "secondOperand";
