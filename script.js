@@ -101,6 +101,10 @@ const Calculator = {
         if (!this.allowOperatorInput) {
             return;
         }
+
+        if (isNaN(this.firstOperand)) {
+            return;
+        }
         
         if (this.secondOperand) {
             this.operate();
@@ -118,6 +122,9 @@ const Calculator = {
     },
 
     equalsPressed() {
+        if (isNaN(this.secondOperand)) {
+            return;
+        }
         if (this.secondOperand) {
             this.operate();
             this.currentInputOperand = "firstOperand";
